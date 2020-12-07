@@ -13,21 +13,47 @@ def readNumbersFromFile(fileName) -> List[int]:
 
     return numbers
 
-def findPairMaking2020(numbers: List[int]) -> Tuple[int, int]:
+def findPairMaking2020(numbers: List[int]) -> List[int]:
+    for i in range(len(numbers)):
+        firstValue = numbers[i]
+
+        for j in range(i + 1, len(numbers)):
+            secondValue = numbers[j]
+            prospect = [firstValue, secondValue]
+
+            if sum(prospect) == 2020:
+                return prospect
+
+    raise Exception("Failed to find a pair with a total of 2020")
+
+def findTipletsMaking2020(numbers: List[int]) -> List[int]:
     for i in range(len(numbers)):
         firstValue = numbers[i]
 
         for j in range(i + 1, len(numbers)):
             secondValue = numbers[j]
 
-            if firstValue + secondValue == 2020:
-                return (firstValue, secondValue)
+            for k in range(j + 1, len(numbers)):
+                thirdValue = numbers[k]
 
-    raise Exception("Failed to find a pair with a total of 2020")
+                prospect = [firstValue, secondValue, thirdValue]
+
+                if sum(prospect) == 2020:
+                    return prospect
+
+    raise Exception("Failed to find a triplet with a total of 2020")
+
+def calculateProduct(numbers: List[int]) -> int:
+    product = 1
+
+    for i in numbers:
+        product *= i
+
+    return product
 
 fileName = input("Enter file name: ")
 numbers = readNumbersFromFile(fileName)
-pairOfNumbers = findPairMaking2020(numbers)
+setOfNumbers = findTipletsMaking2020(numbers)
 
-print("Found values ", pairOfNumbers)
-print("Product is ", pairOfNumbers[0] * pairOfNumbers[1])
+print("Found values ", setOfNumbers)
+print("Product is ", calculateProduct(setOfNumbers))
